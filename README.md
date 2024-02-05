@@ -8,7 +8,7 @@ basic
     <body>
         <div id="pale-turquoise">
             This is a pale turquoise box.
-            <h1>to print a color</h1>
+            <h1>Akash mathi first basic html tags</h1>
             <h2>to print pale turquoise</h2>
             <h3>to print pale turquoise</h3>
             <p>create a web page with basic tags of HTML and add a background color</p>
