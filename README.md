@@ -1,69 +1,75 @@
-# basic
-basic
-<html>
-    <head>
-       
-        <title>hi</title>
-    </head>
-    <body>
-        <div id="pale-turquoise">
-            This is a pale turquoise box.
-            <h1>Akash mathi first basic html tags</h1>
-            <h2>to print pale turquoise</h2>
-            <h3>to print pale turquoise</h3>
-            <p>create a web page with basic tags of HTML and add a background color</p>
-            <marquee>computer workshop</marquee>
-            <ol type="A">
-                <li>sfd</li>
-                <li>rgf</li>
-                <li>sgr</li>
-            </ol>
-            <ul>
-                <li>sfd</li>
-                <li>rgf</li>
-                <li>sgr</li>
-            </ul>
-            <form action="your_server_script.php" method="post">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" placeholder="Your name">
-                <br>
-                <label for ="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Your email">
-                <br>
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" rows="8" cols="100" placeholder="Your message"></textarea>
-                <br>
-                <input type="submit" value="Submit">
-            </form>
-            <table style="border: 1px solid black;">
-                <tr>
-                    <th style="border: 1px solid black;">Roll No</th>
-                    <th style="border: 1px solid black;">Marks</th>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black;">101</td>
-                    <td style="border: 1px solid black;">85</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black;">102</td>
-                    <td style="border: 1px solid black;">92</td>
-                </tr>
-                <tr>
-                    <td style="border: 1px solid black;">103</td>
-                    <td style="border: 1px solid black;">78</td>
-                </tr>
-            </table>
-            
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/iuuyMTPTtpw?si=KrWmFt7MrZ2vI4vz" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-            <img src="https://www.bing.com/th?id=OIP.x_1Qd8Txc1uscZMQ3W-QMgHaHa&w=206&h=206&c=8&rs=1&qlt=90&o=6&pid=3.1&rm=2" width="500px"/><br>
-            <select>
-                <option>Choose an option</option>
-                <option>HTML</option>
-                <option value="java">JAVA</option>
-                <option value="C++">C++</option>
-                <option value="php">PHP</option>
-                <option value="perl">PERL</option>
-            </select>
-        </div>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COGAAN Scanner</title>
+</head>
+
+<body>
+    <h1 class="text-center">--------COGAAN--------</h1>
+    <h1>Scan QR HTML</h1>
+
+    <div style="display: flex; justify-content: center">
+        <div id="my-qr-reader" style="width: 600px"></div>
+    </div>
+
+    <div id="you-qr-result"></div>
+
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <script>
+        function domReady(fn) {
+            if (
+                document.readyState === "complete" ||
+                document.readyState === "interactive"
+            ) {
+                setTimeout(fn, 1);
+            } else {
+                document.addEventListener("DOMContentLoaded", fn);
+            }
+        }
+
+        domReady(function() {
+            var scannedQRData = new Set(); // Set to store scanned QR data
+
+            function downloadScannedData() {
+                var dataToDownload = Array.from(scannedQRData).join('\n');
+                var blob = new Blob([dataToDownload], { type: 'text/plain' });
+                var url = window.URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'scanned_qr_data.txt';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+            }
+
+            function onScanSuccess(decodeText, decodeResult) {
+                if (!scannedQRData.has(decodeText)) { // Check if QR code is not already scanned
+                    scannedQRData.add(decodeText); // Add scanned QR data to the set
+                    // Display all scanned QR data in the div
+                    document.getElementById("you-qr-result").textContent = Array.from(scannedQRData).join('\n');
+                }
+            }
+
+            var htmlScanner = new Html5QrcodeScanner("my-qr-reader", {
+                fps: 10,
+                qrbox: 250,
+            });
+
+            htmlScanner.render(onScanSuccess);
+
+            // Download button event listener
+            document.getElementById('downloadDataButton').addEventListener('click', function() {
+                downloadScannedData();
+            });
+        });
+    </script>
+    <!-- Button to download scanned data -->
+    <button id="downloadDataButton" class="btn btn-primary">Download Scanned Data</button>
+</body>
+
 </html>
